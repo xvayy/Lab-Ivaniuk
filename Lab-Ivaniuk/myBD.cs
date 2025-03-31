@@ -33,5 +33,10 @@ namespace Lab_Ivaniuk
             Calcul calcul = new Calcul();
             calcul.ShowDialog();
         }
+
+        private void myBD_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

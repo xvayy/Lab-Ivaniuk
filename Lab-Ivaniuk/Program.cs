@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Lab_Ivaniuk
 {
     internal static class Program
@@ -16,7 +17,7 @@ namespace Lab_Ivaniuk
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new myBD());
+            Application.Run(new LogIn());
         }
     }
 }

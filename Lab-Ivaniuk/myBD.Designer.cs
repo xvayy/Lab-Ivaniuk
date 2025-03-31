@@ -94,6 +94,7 @@
             this.Name = "myBD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Біоценологія";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.myBD_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
