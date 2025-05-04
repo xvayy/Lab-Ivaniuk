@@ -38,5 +38,16 @@ namespace Lab_Ivaniuk
         {
             Application.Exit();
         }
+
+        private void openTableBiocenologia_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void openTableVzeni_Click(object sender, EventArgs e)
+        {
+            Vzeni vzeni = new Vzeni();
+            vzeni.ShowDialog();
+        }
     }
 }

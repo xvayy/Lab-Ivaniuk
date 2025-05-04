@@ -87,69 +87,73 @@ namespace Lab_Ivaniuk
 
         }
 
-        public static class h
-        {
-            public static string ConStr;
-            public static int typeUser;
-            public static string nameUser;
-            public static BindingSource bsl;
+        
+    
+    }
+    public static class h
+    {
+        public static string ConStr;
+        public static int typeUser;
+        public static string nameUser;
+        public static BindingSource bsl;
+        public static string currentValue;
+        public static string keyName;
 
-            public static DataTable myfunDt(string commanding)
-            {
-                DataTable dt = new DataTable();
-                using (MySqlConnection con = new MySqlConnection(h.ConStr))
+        public static DataTable myfunDt(string commanding)
                 {
-                    MySqlCommand cmd = new MySqlCommand(commanding, con);
-                    try
+                    DataTable dt = new DataTable();
+                    using (MySqlConnection con = new MySqlConnection(h.ConStr))
                     {
-                        con.Open();
-                        using (MySqlDataReader dr = cmd.ExecuteReader())
+                        MySqlCommand cmd = new MySqlCommand(commanding, con);
+                        try
                         {
-                            if (dr.HasRows)
+                            con.Open();
+                            using (MySqlDataReader dr = cmd.ExecuteReader())
                             {
-                                dt.Load(dr);
+                                if (dr.HasRows)
+                                {
+                                    dt.Load(dr);
+                                }
                             }
+                            con.Close();
                         }
-                        con.Close();
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Помилка з'єднання з SQL-сервером! Перевірте підключення до Інтернету...",
+                                ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Помилка з'єднання з SQL-сервером! Перевірте підключення до Інтернету...",
-                            ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    return dt;
                 }
-                return dt;
-            }
 
-            public static string EncryptedPassword_MD5(string str)
+        public static string EncryptedPassword_MD5(string str)
+        {
+            if (string.Compare(str, "null", true) == 0) return "null";
+            byte[] bytes = Encoding.Unicode.GetBytes(str);
+            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
+            byte[] byteHash = CSP.ComputeHash(bytes);
+            string hash = string.Empty;
+            foreach (byte b in byteHash)
             {
-                if (string.Compare(str, "null", true) == 0) return "null";
-                byte[] bytes = Encoding.Unicode.GetBytes(str);
-                MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
-                byte[] byteHash = CSP.ComputeHash(bytes);
-                string hash = string.Empty;
-                foreach (byte b in byteHash)
-                {
-                    hash += string.Format("{0:x2}", b);
-                }
-                return hash;
+                hash += string.Format("{0:x2}", b);
             }
-
-            public static string EncryptedPassword_SHA256(string str) 
-            {
-                using (SHA256 sha256Hash = SHA256.Create())
-                {
-                    byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(str));
-                    StringBuilder builder = new StringBuilder();
-                    for (int i = 0; i < bytes.Length; i++)
-                    {
-                        builder.Append(bytes[i].ToString("x2"));
-                    }
-                    return builder.ToString();
-                }
-            }
-
-
+            return hash;
         }
+
+        public static string EncryptedPassword_SHA256(string str) 
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(str));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+
     }
 }
