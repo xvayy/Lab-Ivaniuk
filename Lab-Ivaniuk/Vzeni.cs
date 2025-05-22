@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -229,6 +230,69 @@ namespace Lab_Ivaniuk
 
             Delete delete = new Delete();
             delete.ShowDialog();
+
+            h.bsl.DataSource = h.myfunDt("SELECT * FROM sqlkn24_2_iyua.vzeni");
+            dataGridView1.DataSource = h.bsl;
+        }
+
+        private void dataGridView1_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
+        {
+            h.keyName = dataGridView1.Columns[0].Name;
+            h.currentValue = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
+
+            int curColInx = dataGridView1.CurrentCellAddress.X;
+            string curColName = dataGridView1.Columns[curColInx].Name;
+            string newCurCellVal = e.Value.ToString();
+
+            // Текстові значення — лапки
+            if (curColName == "first_name" || curColName == "last_name" ||
+                curColName == "address" || curColName == "phone")
+            {
+                newCurCellVal = "'" + newCurCellVal + "'";
+            }
+
+            // Дата — форматування і лапки
+            else if (curColName == "birthday")
+            {
+                newCurCellVal = Convert.ToDateTime(newCurCellVal).ToString("yyyy-MM-dd");
+                newCurCellVal = "'" + newCurCellVal + "'";
+            }
+
+            // Число з плаваючою комою (дійсне число) — крапка
+            else if (curColName == "rating")
+            {
+                newCurCellVal = newCurCellVal.Replace(',', '.');
+            }
+
+            // BIT — перевіряється як 0 або 1, без лапок
+            else if (curColName == "sex")
+            {
+                if (newCurCellVal != "0" && newCurCellVal != "1")
+                    newCurCellVal = "0";
+            }
+
+
+            string sqlStr = "UPDATE sqlkn24_2_iyua.vzeni SET " + curColName + " = " + newCurCellVal +
+                            " WHERE " + h.keyName + "=" + h.currentValue;
+
+            MessageBox.Show(sqlStr);
+
+            using (MySqlConnection con = new MySqlConnection(h.ConStr))
+            {
+                MySqlCommand cmd = new MySqlCommand(sqlStr, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        private void Edit_Click(object sender, EventArgs e)
+        {
+            h.currentValue = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
+            h.keyName = dataGridView1.Columns[0].Name;
+
+            EditVzeniTable edit = new EditVzeniTable();
+            edit.ShowDialog();
 
             h.bsl.DataSource = h.myfunDt("SELECT * FROM sqlkn24_2_iyua.vzeni");
             dataGridView1.DataSource = h.bsl;

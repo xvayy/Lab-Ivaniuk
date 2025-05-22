@@ -68,6 +68,7 @@
             this.comboBoxAdres = new System.Windows.Forms.ComboBox();
             this.btnFilterCancel = new System.Windows.Forms.Button();
             this.btnFilterOk = new System.Windows.Forms.Button();
+            this.Edit = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
@@ -81,6 +82,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(850, 327);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.dataGridView1_CellParsing);
             // 
             // bindingNavigator1
             // 
@@ -100,7 +102,8 @@
             this.btnFind,
             this.btnFilter,
             this.btnAddNewItem,
-            this.deleteItem});
+            this.deleteItem,
+            this.Edit});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -447,6 +450,16 @@
             this.btnFilterOk.UseVisualStyleBackColor = false;
             this.btnFilterOk.Click += new System.EventHandler(this.btnFilterOk_Click);
             // 
+            // Edit
+            // 
+            this.Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Edit.Image = ((System.Drawing.Image)(resources.GetObject("Edit.Image")));
+            this.Edit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Edit.Name = "Edit";
+            this.Edit.Size = new System.Drawing.Size(23, 22);
+            this.Edit.Text = "toolStripButton1";
+            this.Edit.Click += new System.EventHandler(this.Edit_Click);
+            // 
             // Vzeni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -511,5 +524,6 @@
         private System.Windows.Forms.ComboBox comboBoxPhone;
         private System.Windows.Forms.ToolStripButton btnAddNewItem;
         private System.Windows.Forms.ToolStripButton deleteItem;
+        private System.Windows.Forms.ToolStripButton Edit;
     }
 }
