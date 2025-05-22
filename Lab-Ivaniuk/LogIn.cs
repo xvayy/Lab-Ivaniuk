@@ -98,6 +98,7 @@ namespace Lab_Ivaniuk
         public static BindingSource bsl;
         public static string currentValue;
         public static string keyName;
+        public static string pathToPhoto { get; set; }
 
         public static DataTable myfunDt(string commanding)
                 {

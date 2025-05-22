@@ -45,6 +45,7 @@
             this.btnFilter = new System.Windows.Forms.ToolStripButton();
             this.btnAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.deleteItem = new System.Windows.Forms.ToolStripButton();
+            this.Edit = new System.Windows.Forms.ToolStripButton();
             this.findLabeel = new System.Windows.Forms.Label();
             this.txtFind = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -68,20 +69,24 @@
             this.comboBoxAdres = new System.Windows.Forms.ComboBox();
             this.btnFilterCancel = new System.Windows.Forms.Button();
             this.btnFilterOk = new System.Windows.Forms.Button();
-            this.Edit = new System.Windows.Forms.ToolStripButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(79, 27);
+            this.dataGridView1.Location = new System.Drawing.Point(34, 72);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(850, 327);
+            this.dataGridView1.Size = new System.Drawing.Size(853, 328);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.dataGridView1_CellParsing);
             // 
             // bindingNavigator1
@@ -111,7 +116,7 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1034, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(1224, 25);
             this.bindingNavigator1.TabIndex = 1;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -223,7 +228,17 @@
             this.deleteItem.Name = "deleteItem";
             this.deleteItem.Size = new System.Drawing.Size(23, 22);
             this.deleteItem.Text = "toolStripButton2";
-            this.deleteItem.Click += new System.EventHandler(this.deleteItem_Click);
+            this.deleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
+            // 
+            // Edit
+            // 
+            this.Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Edit.Image = ((System.Drawing.Image)(resources.GetObject("Edit.Image")));
+            this.Edit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Edit.Name = "Edit";
+            this.Edit.Size = new System.Drawing.Size(23, 22);
+            this.Edit.Text = "toolStripButton1";
+            this.Edit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // findLabeel
             // 
@@ -267,9 +282,9 @@
             this.groupBox1.Controls.Add(this.comboBoxAdres);
             this.groupBox1.Controls.Add(this.btnFilterCancel);
             this.groupBox1.Controls.Add(this.btnFilterOk);
-            this.groupBox1.Location = new System.Drawing.Point(38, 402);
+            this.groupBox1.Location = new System.Drawing.Point(34, 452);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(955, 139);
+            this.groupBox1.Size = new System.Drawing.Size(953, 128);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filter";
@@ -450,21 +465,31 @@
             this.btnFilterOk.UseVisualStyleBackColor = false;
             this.btnFilterOk.Click += new System.EventHandler(this.btnFilterOk_Click);
             // 
-            // Edit
+            // panel2
             // 
-            this.Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Edit.Image = ((System.Drawing.Image)(resources.GetObject("Edit.Image")));
-            this.Edit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Edit.Name = "Edit";
-            this.Edit.Size = new System.Drawing.Size(23, 22);
-            this.Edit.Text = "toolStripButton1";
-            this.Edit.Click += new System.EventHandler(this.Edit_Click);
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Location = new System.Drawing.Point(916, 28);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(282, 406);
+            this.panel2.TabIndex = 24;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(16, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(241, 168);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.WaitOnLoad = true;
             // 
             // Vzeni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1034, 585);
+            this.ClientSize = new System.Drawing.Size(1224, 607);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtFind);
             this.Controls.Add(this.findLabeel);
@@ -479,6 +504,9 @@
             this.bindingNavigator1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -525,5 +553,7 @@
         private System.Windows.Forms.ToolStripButton btnAddNewItem;
         private System.Windows.Forms.ToolStripButton deleteItem;
         private System.Windows.Forms.ToolStripButton Edit;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

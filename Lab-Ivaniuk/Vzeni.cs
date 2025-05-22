@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,9 @@ namespace Lab_Ivaniuk
 
         private void Vzeni_Load(object sender, EventArgs e)
         {
-            this.Height = 450;
+            this.Height = 490;
+            this.Width = 1015;
+
             h.bsl = new BindingSource();
             h.bsl.DataSource = h.myfunDt("SELECT * FROM sqlkn24_2_iyua.vzeni");
             dataGridView1.DataSource = h.bsl;
@@ -146,13 +149,16 @@ namespace Lab_Ivaniuk
             }
             else
             {
-                this.Height = 400;
+                this.Height = 490;
                 groupBox1.Visible = false;
             }
         }
 
         private void btnFilterOk_Click(object sender, EventArgs e)
         {
+            this.Width = 1015;
+            pictureBox1.Image = null;
+
             string strFilter = "";
             strFilter += "id_vch > 0";
             if (txtLastName.Text != "")
@@ -223,7 +229,7 @@ namespace Lab_Ivaniuk
             dataGridView1.DataSource = h.bsl;
         }
 
-        private void deleteItem_Click(object sender, EventArgs e)
+        private void btnDeleteItem_Click(object sender, EventArgs e)
         {
             h.currentValue = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
             h.keyName = dataGridView1.Columns[0].Name;
@@ -286,7 +292,7 @@ namespace Lab_Ivaniuk
             }
         }
 
-        private void Edit_Click(object sender, EventArgs e)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
             h.currentValue = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
             h.keyName = dataGridView1.Columns[0].Name;
@@ -296,6 +302,35 @@ namespace Lab_Ivaniuk
 
             h.bsl.DataSource = h.myfunDt("SELECT * FROM sqlkn24_2_iyua.vzeni");
             dataGridView1.DataSource = h.bsl;
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int rIndx = e.RowIndex;
+                int cIndx = dataGridView1.Columns["photo"].Index; // або замінити на точний індекс, якщо не знаєш ім'я
+
+                if (rIndx >= 0 && dataGridView1.Rows[rIndx].Cells[cIndx].Value != DBNull.Value)
+                {
+                    byte[] masBytes = (byte[])dataGridView1.Rows[rIndx].Cells[cIndx].Value;
+                    using (MemoryStream memImage = new MemoryStream(masBytes))
+                    {
+                        this.Width = 1240;
+                        pictureBox1.Image = Image.FromStream(memImage);
+                        //MessageBox.Show("PHOTOOOO");
+                    }
+                }
+                else
+                {
+                    this.Width = 1015;
+                    pictureBox1.Image = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Помилка при завантаженні зображення: " + ex.Message);
+            }
         }
     }
 }
