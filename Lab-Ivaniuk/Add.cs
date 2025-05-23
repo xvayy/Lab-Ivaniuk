@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,10 +37,18 @@ namespace Lab_Ivaniuk
                 bool sex = txtSex.Text == "Чоловік";
                 string birthday = txtBirthday.Text;
 
+                string strFileName = h.pathToPhoto;
+                FileStream fs = new FileStream(strFileName, FileMode.Open, FileAccess.Read);
+
+                int fileSize = (Int32)fs.Length;
+                byte[] bytesArr = new byte[fileSize];
+                fs.Read(bytesArr, 0, fileSize);
+                fs.Close();
+
 
                 string sqlQuery = "INSERT INTO sqlkn24_2_iyua.vzeni" +
-                    "(id_vch, first_name, last_name, address, phone, rating, sex, birthday)" +
-                    "VALUES(@id, @firstName, @lastName, @city, @phone, @rating, @sex, @birthday)";
+                    "(id_vch, first_name, last_name, address, phone, rating, sex, birthday, photo)" +
+                    "VALUES(@id, @firstName, @lastName, @city, @phone, @rating, @sex, @birthday, @photo)";
 
                 MySqlCommand command = new MySqlCommand(sqlQuery, conection);
 
@@ -51,6 +60,9 @@ namespace Lab_Ivaniuk
                 command.Parameters.AddWithValue("@rating", rating);
                 command.Parameters.AddWithValue("@sex", sex);
                 command.Parameters.AddWithValue("@birthday", birthday);
+
+                command.Parameters.AddWithValue("@photo", bytesArr);
+
 
                 conection.Open();
                 try
@@ -67,6 +79,30 @@ namespace Lab_Ivaniuk
                     conection.Close();
                     this.Close();
                 }
+            }
+        }
+
+        private void Add_Load(object sender, EventArgs e)
+        {
+            h.pathToPhoto = Application.StartupPath + @"\" + "scientist1.png";
+            pictureBox1.Image = Image.FromFile(h.pathToPhoto);
+        }
+
+        private void btnChosePhoto_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.Title = "Виберіть фото";
+            OFD.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+            OFD.InitialDirectory = Application.StartupPath;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                h.pathToPhoto = OFD.FileName;
+                pictureBox1.Image = Image.FromFile(h.pathToPhoto);
+            }
+            else
+            {
+                MessageBox.Show("Виберіть фото!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

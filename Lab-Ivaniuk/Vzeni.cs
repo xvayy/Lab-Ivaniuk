@@ -318,13 +318,17 @@ namespace Lab_Ivaniuk
                     {
                         this.Width = 1240;
                         pictureBox1.Image = Image.FromStream(memImage);
+                        this.pictureBox1.Location = new System.Drawing.Point(24, 0);
+                        pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                         //MessageBox.Show("PHOTOOOO");
                     }
                 }
                 else
                 {
-                    this.Width = 1015;
-                    pictureBox1.Image = null;
+                    this.Width = 1240;
+                    pictureBox1.Image = Image.FromFile(Application.StartupPath + @"\" + "no_photo.png");
+                    this.pictureBox1.Location = new System.Drawing.Point(24, 120);
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                 }
             }
             catch (Exception ex)
@@ -332,5 +336,7 @@ namespace Lab_Ivaniuk
                 MessageBox.Show("Помилка при завантаженні зображення: " + ex.Message);
             }
         }
+
+
     }
 }
