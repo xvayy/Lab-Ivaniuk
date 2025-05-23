@@ -1,6 +1,6 @@
 ﻿namespace Lab_Ivaniuk
 {
-    partial class Calcul
+    partial class Calculator
     {
         /// <summary>
         /// Required designer variable.
@@ -137,7 +137,7 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // Calcul
+            // Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -153,9 +153,9 @@
             this.Controls.Add(this.txtCh2);
             this.Controls.Add(this.txtCh1);
             this.Controls.Add(this.cmbxAct);
-            this.Name = "Calcul";
+            this.Name = "Calculator";
             this.Text = "Calculator";
-            this.Load += new System.EventHandler(this.Calcul_Load);
+            this.Load += new System.EventHandler(this.Calculator_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

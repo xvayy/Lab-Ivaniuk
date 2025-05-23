@@ -71,23 +71,32 @@
             this.btnFilterOk = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnStream = new System.Windows.Forms.Button();
+            this.btnOLEDB = new System.Windows.Forms.Button();
+            this.btnComObject = new System.Windows.Forms.Button();
+            this.btnXML = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.radioBtnXls = new System.Windows.Forms.RadioButton();
+            this.radioBtnDoc = new System.Windows.Forms.RadioButton();
+            this.radioBtnTsv = new System.Windows.Forms.RadioButton();
+            this.radioBtnTxt = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(34, 72);
+            this.dataGridView1.Location = new System.Drawing.Point(39, 208);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(853, 328);
+            this.dataGridView1.Size = new System.Drawing.Size(859, 331);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             this.dataGridView1.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.dataGridView1_CellParsing);
             // 
             // bindingNavigator1
@@ -117,7 +126,7 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1224, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(1229, 25);
             this.bindingNavigator1.TabIndex = 1;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -283,7 +292,7 @@
             this.groupBox1.Controls.Add(this.comboBoxAdres);
             this.groupBox1.Controls.Add(this.btnFilterCancel);
             this.groupBox1.Controls.Add(this.btnFilterOk);
-            this.groupBox1.Location = new System.Drawing.Point(34, 452);
+            this.groupBox1.Location = new System.Drawing.Point(39, 588);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(953, 128);
             this.groupBox1.TabIndex = 4;
@@ -470,7 +479,7 @@
             // 
             this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Location = new System.Drawing.Point(916, 28);
+            this.panel2.Location = new System.Drawing.Point(921, 164);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(282, 406);
             this.panel2.TabIndex = 24;
@@ -485,11 +494,117 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.WaitOnLoad = true;
             // 
+            // btnStream
+            // 
+            this.btnStream.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnStream.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnStream.ForeColor = System.Drawing.Color.Transparent;
+            this.btnStream.Location = new System.Drawing.Point(39, 97);
+            this.btnStream.Name = "btnStream";
+            this.btnStream.Size = new System.Drawing.Size(79, 28);
+            this.btnStream.TabIndex = 25;
+            this.btnStream.Text = "Stream";
+            this.btnStream.UseVisualStyleBackColor = false;
+            this.btnStream.Click += new System.EventHandler(this.btnStream_Click);
+            // 
+            // btnOLEDB
+            // 
+            this.btnOLEDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnOLEDB.Location = new System.Drawing.Point(392, 97);
+            this.btnOLEDB.Name = "btnOLEDB";
+            this.btnOLEDB.Size = new System.Drawing.Size(79, 28);
+            this.btnOLEDB.TabIndex = 26;
+            this.btnOLEDB.Text = "OLEDB";
+            this.btnOLEDB.UseVisualStyleBackColor = true;
+            this.btnOLEDB.Click += new System.EventHandler(this.btnOLEDB_Click);
+            // 
+            // btnComObject
+            // 
+            this.btnComObject.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnComObject.Location = new System.Drawing.Point(488, 97);
+            this.btnComObject.Name = "btnComObject";
+            this.btnComObject.Size = new System.Drawing.Size(107, 28);
+            this.btnComObject.TabIndex = 27;
+            this.btnComObject.Text = "Com Object";
+            this.btnComObject.UseVisualStyleBackColor = true;
+            this.btnComObject.Click += new System.EventHandler(this.btnComObject_Click);
+            // 
+            // btnXML
+            // 
+            this.btnXML.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnXML.Location = new System.Drawing.Point(612, 97);
+            this.btnXML.Name = "btnXML";
+            this.btnXML.Size = new System.Drawing.Size(79, 28);
+            this.btnXML.TabIndex = 28;
+            this.btnXML.Text = "XML";
+            this.btnXML.UseVisualStyleBackColor = true;
+            this.btnXML.Click += new System.EventHandler(this.btnXML_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioBtnXls);
+            this.panel1.Controls.Add(this.radioBtnDoc);
+            this.panel1.Controls.Add(this.radioBtnTsv);
+            this.panel1.Controls.Add(this.radioBtnTxt);
+            this.panel1.Location = new System.Drawing.Point(170, 65);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(176, 100);
+            this.panel1.TabIndex = 29;
+            // 
+            // radioBtnXls
+            // 
+            this.radioBtnXls.AutoSize = true;
+            this.radioBtnXls.Location = new System.Drawing.Point(119, 67);
+            this.radioBtnXls.Name = "radioBtnXls";
+            this.radioBtnXls.Size = new System.Drawing.Size(37, 17);
+            this.radioBtnXls.TabIndex = 3;
+            this.radioBtnXls.TabStop = true;
+            this.radioBtnXls.Text = "xls";
+            this.radioBtnXls.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnDoc
+            // 
+            this.radioBtnDoc.AutoSize = true;
+            this.radioBtnDoc.Location = new System.Drawing.Point(119, 13);
+            this.radioBtnDoc.Name = "radioBtnDoc";
+            this.radioBtnDoc.Size = new System.Drawing.Size(43, 17);
+            this.radioBtnDoc.TabIndex = 2;
+            this.radioBtnDoc.TabStop = true;
+            this.radioBtnDoc.Text = "doc";
+            this.radioBtnDoc.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnTsv
+            // 
+            this.radioBtnTsv.AutoSize = true;
+            this.radioBtnTsv.Location = new System.Drawing.Point(15, 67);
+            this.radioBtnTsv.Name = "radioBtnTsv";
+            this.radioBtnTsv.Size = new System.Drawing.Size(39, 17);
+            this.radioBtnTsv.TabIndex = 1;
+            this.radioBtnTsv.Text = "tsv";
+            this.radioBtnTsv.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnTxt
+            // 
+            this.radioBtnTxt.AutoSize = true;
+            this.radioBtnTxt.Checked = true;
+            this.radioBtnTxt.Location = new System.Drawing.Point(15, 13);
+            this.radioBtnTxt.Name = "radioBtnTxt";
+            this.radioBtnTxt.Size = new System.Drawing.Size(36, 17);
+            this.radioBtnTxt.TabIndex = 0;
+            this.radioBtnTxt.TabStop = true;
+            this.radioBtnTxt.Text = "txt";
+            this.radioBtnTxt.UseVisualStyleBackColor = true;
+            // 
             // Vzeni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1224, 607);
+            this.ClientSize = new System.Drawing.Size(1229, 757);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btnXML);
+            this.Controls.Add(this.btnComObject);
+            this.Controls.Add(this.btnOLEDB);
+            this.Controls.Add(this.btnStream);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtFind);
@@ -508,6 +623,8 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -556,5 +673,14 @@
         private System.Windows.Forms.ToolStripButton Edit;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnStream;
+        private System.Windows.Forms.Button btnOLEDB;
+        private System.Windows.Forms.Button btnComObject;
+        private System.Windows.Forms.Button btnXML;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton radioBtnXls;
+        private System.Windows.Forms.RadioButton radioBtnDoc;
+        private System.Windows.Forms.RadioButton radioBtnTsv;
+        private System.Windows.Forms.RadioButton radioBtnTxt;
     }
 }

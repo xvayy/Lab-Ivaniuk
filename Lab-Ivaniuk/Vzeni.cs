@@ -9,11 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Data.OleDb;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Lab_Ivaniuk
 {
     public partial class Vzeni : Form
     {
+        string folderPath = Application.StartupPath;
+        DataTable dt;
         public Vzeni()
         {
             InitializeComponent();
@@ -21,13 +26,24 @@ namespace Lab_Ivaniuk
 
         private void Vzeni_Load(object sender, EventArgs e)
         {
-            this.Height = 490;
+            if (h.typeUser == 3)
+            {
+                btnAddNewItem.Visible = false;
+                deleteItem.Visible = false;
+                Edit.Visible = false;
+                dataGridView1.ReadOnly = true;
+            }
+            this.Height = 620;
             this.Width = 1015;
 
             h.bsl = new BindingSource();
             h.bsl.DataSource = h.myfunDt("SELECT * FROM sqlkn24_2_iyua.vzeni");
             dataGridView1.DataSource = h.bsl;
             bindingNavigator1.BindingSource = h.bsl;
+
+            folderPath += @"\Report";
+
+            dt = (DataTable)h.bsl.DataSource;
 
             h.bsl.Sort = "address";
             DGWFormat();
@@ -144,12 +160,12 @@ namespace Lab_Ivaniuk
         {
             if (btnFilter.Checked)
             {
-                this.Height = 650;
+                this.Height = 800;
                 groupBox1.Visible = true;
             }
             else
             {
-                this.Height = 490;
+                this.Height = 620;
                 groupBox1.Visible = false;
             }
         }
@@ -338,5 +354,271 @@ namespace Lab_Ivaniuk
         }
 
 
+        //Excel
+        private void btnStream_Click(object sender, EventArgs e)
+        {
+            var srcEncoding = Encoding.GetEncoding(1251);
+
+            string extend;
+
+            if (radioBtnTsv.Checked)
+            {
+                extend = "tsv";
+            }
+            else if (radioBtnDoc.Checked)
+            {
+                extend = "doc";
+            }
+            else if (radioBtnXls.Checked)
+            {
+                extend = "xls";
+            }
+            else
+            {
+                extend = "txt";
+            }
+
+            string fileName = folderPath + @"\Vzeni." + extend;
+
+            if (File.Exists(fileName)) File.Delete(fileName);
+
+            StreamWriter wr = new StreamWriter(fileName, false, srcEncoding);
+
+            try
+            {
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    wr.Write(dt.Columns[i].ColumnName + "\t");
+                }
+
+                wr.WriteLine();
+                // Вивід даних (записів)
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        if (dt.Rows[i] != null)
+                        {
+                            // У Stream вивід ФОТО не реалізується
+                            if (dt.Columns[j].DataType.ToString() == "System.Byte[]")
+                            {
+                                wr.Write("ФОТО" + "\t");
+                            }
+                            // якщо тип даних ДАТА, тоді конвертуємо у формат день-місяць-рік
+                            else if (dt.Columns[j].DataType.ToString() == "System.DateTime")
+                            {
+                                wr.Write(Convert.ToDateTime(dt.Rows[i][j]).ToString("dd/MM/yyyy") + "\t");
+                            }
+                            // якщо тип даних DOUBLE (дійсне число), тоді конвертуємо в дійсне
+                            else if (dt.Columns[j].DataType.ToString() == "System.Double")
+                            {
+                                wr.Write(Convert.ToDouble(dt.Rows[i][j]).ToString() + "\t");
+                            }
+                            // решту виводимо як текст
+                            else
+                            {
+                                wr.Write(Convert.ToString(dt.Rows[i][j]) + "\t");
+                            }
+                        }
+                        else
+                        {
+                            wr.Write("\t");
+                        }
+                    }
+
+                    wr.WriteLine();
+                }
+
+                wr.Close(); // close file
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            MessageBox.Show("Експорт успішний");
+        }
+
+        private void btnOLEDB_Click(object sender, EventArgs e)
+        {
+            string fileName = folderPath + @"\Vzeni_OLEDB.xls";
+            if (File.Exists(fileName)) File.Delete(fileName);
+
+            // Рядок з'єднання з таблицею БД в Excel
+            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName +
+                                      ";Mode=ReadWrite;Extended Properties=\"Excel 8.0;HDR=NO\"";
+
+            // Команда CREATE TABLE в Excel
+            string commandCreateOleDb = "CREATE TABLE [MySheet] (["
+                + dt.Columns[0].ColumnName + "] int";
+            for (int i = 1; i < dt.Columns.Count; i++)
+            {
+                commandCreateOleDb += ", [" + dt.Columns[i].ColumnName + "] string";
+            }
+            commandCreateOleDb += ")";
+
+            // Створення з'єднання з БД Excel
+            using (OleDbConnection conn = new OleDbConnection(connectionString))
+            {
+                // Створення команди на створення таблиці
+                using (OleDbCommand cmd = new OleDbCommand(commandCreateOleDb, conn))
+                {
+                    try
+                    {
+                        conn.Open(); // Відкриття з'єднання
+                        cmd.ExecuteNonQuery(); // Створення таблиці Excel
+
+                        // Генерація команди типу INSERT для додавання записів
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            cmd.CommandText = "insert into [MySheet$] values(" + Convert.ToString(dt.Rows[i][0]);
+                            
+                            for (int j = 1; j < dt.Columns.Count; j++)
+                            {
+                                //if (dt.Columns[j].ToString() == "rating")
+                                //{
+                                //    MessageBox.Show("rating type: " + dt.Columns[j].DataType.ToString());
+                                //}
+                                if (dt.Columns[j].DataType.ToString() == "System.String")
+                                {
+                                    cmd.CommandText += ", '" + Convert.ToString(dt.Rows[i][j]) + "'";
+                                }
+                                else if (dt.Columns[j].DataType.ToString() == "System.Int32")
+                                {
+                                    cmd.CommandText += ", " + Convert.ToInt32(dt.Rows[i][j]);
+                                }
+                                else if (dt.Columns[j].DataType.ToString() == "System.Decimal")
+                                {
+                                    
+                                    cmd.CommandText += ", " + Convert.ToDecimal(dt.Rows[i][j]).ToString().Replace(",", ".");
+                                }
+                                else if (dt.Columns[j].DataType.ToString() == "System.UInt64")
+                                {
+                                    cmd.CommandText += ", " + Convert.ToUInt64(dt.Rows[i][j]);
+                                }
+                                else if (dt.Columns[j].DataType.ToString() == "System.DateTime")
+                                {
+                                    cmd.CommandText += ", '" + Convert.ToDateTime(dt.Rows[i][j]).ToString("dd/MM/yyyy") + "'";
+                                }
+                                else
+                                {
+                                    cmd.CommandText += ", 'не конвертовано'";
+                                }
+                            }
+
+                            cmd.CommandText += ")";
+                            cmd.ExecuteNonQuery(); // Виконання згенерованої команди INSERT
+                        }
+                        MessageBox.Show("Успішний експорт dt за допомогою OLEDB");
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Таблиця MySheet уже існує або відкрита");
+                    }
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnComObject_Click(object sender, EventArgs e)
+        {
+            string fileName = folderPath + @"\Vzeni_COM.xls";
+            if (File.Exists(fileName)) File.Delete(fileName);
+
+            Excel.Application excel = new Excel.Application(); // Створюємо COM-об’єкт Excel
+            Excel.Workbook workbook = excel.Workbooks.Add(Type.Missing); // Додаємо книгу
+            Excel.Worksheet sheet = workbook.Worksheets.get_Item(1); // Отримуємо посилання на перший аркуш
+            sheet.Name = "Вчені"; // Перейменовуємо аркуш
+
+            // Додаємо окремий заголовок у A1
+            sheet.Cells[1, 1].Value = "Звіт: Вчені";
+            sheet.Range["A1"].Font.Bold = true;
+            sheet.Range["A1"].Font.Size = 14;
+            sheet.Range["A1"].Interior.Color = ColorTranslator.ToOle(Color.Yellow);
+
+            // Виводимо назви полів з другого рядка
+            for (int j = 0; j < dt.Columns.Count; j++)
+            {
+                sheet.Cells[2, j + 1].Value = dt.Columns[j].ColumnName;
+                ((Excel.Range)sheet.Cells[2, j + 1]).Interior.Color = ColorTranslator.ToOle(Color.Orange); // Оранжевий фон для назв колонок
+            }
+
+            // Виводимо записи починаючи з третього рядка
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    if (dt.Columns[j].DataType.ToString() == "System.Byte[]")
+                    {
+                        sheet.Cells[i + 3, j + 1].Value = "ФОТО"; // Фото не виводимо
+                    }
+                    else if (dt.Columns[j].ColumnName.ToLower().Contains("phone"))
+                    {
+                        sheet.Cells[i + 3, j + 1].Value = "'" + dt.Rows[i][j].ToString(); // Телефон як текст з апострофом
+                    }
+                    else
+                    {
+                        sheet.Cells[i + 3, j + 1].Value = dt.Rows[i][j];
+                    }
+                }
+            }
+
+            // Форматування файлу Excel
+            formatVzeniCOM(excel, sheet);
+
+            excel.Application.ActiveWorkbook.SaveAs(fileName, Excel.XlSaveAsAccessMode.xlNoChange);
+            workbook.Close(false); // Закриваємо без збереження змін
+            excel.Quit(); // Закриваємо Excel
+
+            MessageBox.Show("File xls успішно створено за допомогою COM-об’єктів Excel");
+        }
+
+        private void formatVzeniCOM(Excel.Application excel, Excel.Worksheet sheet)
+        {
+            // *********** Формат сторінки ***********
+            excel.ActiveWindow.Zoom = 75; // Масштаб 75%
+            sheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape; // Альбомна орієнтація
+            sheet.PageSetup.LeftMargin = 15;
+            sheet.PageSetup.RightMargin = 15;
+            sheet.PageSetup.TopMargin = 15;
+            sheet.PageSetup.BottomMargin = 15;
+
+            // *********** Форматування таблиці ***********
+            Excel.Range rangeSh = (Excel.Range)sheet.UsedRange;
+            rangeSh.Font.Size = 14;
+
+            // ------------------ заголовок таблиці ------------------
+            int r1 = 2; // row1 з назвами
+            int r2 = dt.Rows.Count + 2; // останній рядок
+            int c1 = 1;
+            int c2 = dt.Columns.Count;
+
+            rangeSh = (Excel.Range)sheet.Range[sheet.Cells[r1, c1], sheet.Cells[r2, c2]];
+
+            rangeSh.Font.Bold = true;
+            rangeSh.Font.Size = 12;
+            rangeSh.Interior.Color = ColorTranslator.ToOle(Color.Green);
+            rangeSh.Font.Name = "Arial";
+
+            rangeSh.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            rangeSh.Borders.Weight = Excel.XlBorderWeight.xlThin;
+            rangeSh.Borders.Color = ColorTranslator.ToOle(Color.Red);
+
+            rangeSh.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            rangeSh.HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+
+            sheet.Rows.RowHeight = 15;
+            sheet.Columns.ColumnWidth = 25;
+
+            sheet.UsedRange.EntireColumn.AutoFit();
+            sheet.UsedRange.EntireRow.AutoFit();
+}
+
+        private void btnXML_Click(object sender, EventArgs e)
+        {
+            string fileName = folderPath + @"\Vzeni_XML.xls";
+            dt.WriteXml(fileName);
+            MessageBox.Show("File XML успішно створено");
+        }
     }
 }

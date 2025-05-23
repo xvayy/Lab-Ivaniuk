@@ -66,6 +66,7 @@ namespace Lab_Ivaniuk
                 {
                     if (String.Equals(h.EncryptedPassword_MD5(txtPassword.Text), matrix[i, 3]))
                     {
+                        h.typeUser = int.Parse(matrix[i, 2]);
                         this.Hide();
                         myBD f1 = new myBD();
                         f1.ShowDialog();

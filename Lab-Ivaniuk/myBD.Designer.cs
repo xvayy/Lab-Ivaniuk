@@ -40,6 +40,13 @@
             this.калькуляторToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.проПрограмуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вихідToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.додатиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.видалитиКористувачаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.змінитиПарольКористувачаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.змінитиТипДоступуКористувачаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.резервнеКопіюванняБДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.резервнеВідновленняБДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,6 +120,14 @@
             // 
             // адмініструванняToolStripMenuItem
             // 
+            this.адмініструванняToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.додатиToolStripMenuItem,
+            this.видалитиКористувачаToolStripMenuItem,
+            this.змінитиПарольКористувачаToolStripMenuItem,
+            this.змінитиТипДоступуКористувачаToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.резервнеКопіюванняБДToolStripMenuItem,
+            this.резервнеВідновленняБДToolStripMenuItem});
             this.адмініструванняToolStripMenuItem.Name = "адмініструванняToolStripMenuItem";
             this.адмініструванняToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
             this.адмініструванняToolStripMenuItem.Text = "Адміністрування";
@@ -138,6 +153,53 @@
             this.вихідToolStripMenuItem.Text = "Вихід";
             this.вихідToolStripMenuItem.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
             // 
+            // додатиToolStripMenuItem
+            // 
+            this.додатиToolStripMenuItem.Name = "додатиToolStripMenuItem";
+            this.додатиToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.додатиToolStripMenuItem.Text = "Додати користувача";
+            this.додатиToolStripMenuItem.Click += new System.EventHandler(this.додатиToolStripMenuItem_Click);
+            // 
+            // видалитиКористувачаToolStripMenuItem
+            // 
+            this.видалитиКористувачаToolStripMenuItem.Name = "видалитиКористувачаToolStripMenuItem";
+            this.видалитиКористувачаToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.видалитиКористувачаToolStripMenuItem.Text = "Видалити користувача";
+            this.видалитиКористувачаToolStripMenuItem.Click += new System.EventHandler(this.видалитиКористувачаToolStripMenuItem_Click);
+            // 
+            // змінитиПарольКористувачаToolStripMenuItem
+            // 
+            this.змінитиПарольКористувачаToolStripMenuItem.Name = "змінитиПарольКористувачаToolStripMenuItem";
+            this.змінитиПарольКористувачаToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.змінитиПарольКористувачаToolStripMenuItem.Text = "Змінити пароль користувача";
+            this.змінитиПарольКористувачаToolStripMenuItem.Click += new System.EventHandler(this.змінитиПарольКористувачаToolStripMenuItem_Click);
+            // 
+            // змінитиТипДоступуКористувачаToolStripMenuItem
+            // 
+            this.змінитиТипДоступуКористувачаToolStripMenuItem.Name = "змінитиТипДоступуКористувачаToolStripMenuItem";
+            this.змінитиТипДоступуКористувачаToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.змінитиТипДоступуКористувачаToolStripMenuItem.Text = "Змінити тип доступу користувача";
+            this.змінитиТипДоступуКористувачаToolStripMenuItem.Click += new System.EventHandler(this.змінитиТипДоступуКористувачаToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(256, 6);
+            // 
+            // резервнеКопіюванняБДToolStripMenuItem
+            // 
+            this.резервнеКопіюванняБДToolStripMenuItem.Name = "резервнеКопіюванняБДToolStripMenuItem";
+            this.резервнеКопіюванняБДToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.резервнеКопіюванняБДToolStripMenuItem.Text = "Резервне копіювання БД";
+            this.резервнеКопіюванняБДToolStripMenuItem.Click += new System.EventHandler(this.резервнеКопіюванняБДToolStripMenuItem_Click);
+            // 
+            // резервнеВідновленняБДToolStripMenuItem
+            // 
+            this.резервнеВідновленняБДToolStripMenuItem.Name = "резервнеВідновленняБДToolStripMenuItem";
+            this.резервнеВідновленняБДToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.резервнеВідновленняБДToolStripMenuItem.Text = "Резервне відновлення БД";
+            this.резервнеВідновленняБДToolStripMenuItem.Click += new System.EventHandler(this.резервнеВідновленняБДToolStripMenuItem_Click);
+            // 
             // myBD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +211,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Біоценологія";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.myBD_FormClosed);
+            this.Load += new System.EventHandler(this.myBD_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -169,6 +232,13 @@
         private System.Windows.Forms.ToolStripMenuItem openTableRoslyny;
         private System.Windows.Forms.ToolStripMenuItem openTableTvaryny;
         private System.Windows.Forms.ToolStripMenuItem територіяToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem додатиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem видалитиКористувачаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem змінитиПарольКористувачаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem змінитиТипДоступуКористувачаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem резервнеКопіюванняБДToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem резервнеВідновленняБДToolStripMenuItem;
     }
 }
 

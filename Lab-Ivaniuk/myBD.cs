@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Lab_Ivaniuk
 {
@@ -30,7 +31,7 @@ namespace Lab_Ivaniuk
 
         private void калькуляторToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Calcul calcul = new Calcul();
+            Calculator calcul = new Calculator();
             calcul.ShowDialog();
         }
 
@@ -49,5 +50,79 @@ namespace Lab_Ivaniuk
             Vzeni vzeni = new Vzeni();
             vzeni.ShowDialog();
         }
+
+        private void myBD_Load(object sender, EventArgs e)
+        {
+            if (h.typeUser != 1)
+            {
+				адмініструванняToolStripMenuItem.Visible = false;
+            }
+		}
+
+        private void додатиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewUser newUser = new AddNewUser();
+			newUser.ShowDialog();
+		}
+
+        private void видалитиКористувачаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteUser delUser = new DeleteUser();
+			delUser.ShowDialog();
+		}
+
+        private void змінитиПарольКористувачаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditUserPassword editPassword = new EditUserPassword();
+			editPassword.ShowDialog();
+		}
+
+        private void змінитиТипДоступуКористувачаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditUserType editType = new EditUserType();
+			editType.ShowDialog();
+		}
+
+        private void резервнеКопіюванняБДToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MySqlConnection con = new MySqlConnection(h.ConStr);
+            MySqlCommand cmd = new MySqlCommand("copyUsers", con);
+            try
+            {
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+				cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Немає з'єднання з сервером!", "Помилка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            MessageBox.Show("Резервне копіювання успішно завершено!");
+
+		}
+
+        private void резервнеВідновленняБДToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MySqlConnection con = new MySqlConnection(h.ConStr);
+            MySqlCommand cmd = new MySqlCommand("restoreUsers", con);
+            try
+            {
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+				cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Немає з'єднання з сервером!", "Помилка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            MessageBox.Show("Резервне відновлення успішно завершено!");
+
+		}
     }
 }

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Lab_Ivaniuk
 {
-    public partial class Calcul : Form
+    public partial class Calculator : Form
     {
-        public Calcul()
+        public Calculator()
         {
             InitializeComponent();
         }
@@ -22,7 +22,7 @@ namespace Lab_Ivaniuk
 
         }
 
-        private void Calcul_Load(object sender, EventArgs e)
+        private void Calculator_Load(object sender, EventArgs e)
         {
             cmbxAct.Items.Add("+");
             cmbxAct.Items.Add("-");
